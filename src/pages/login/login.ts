@@ -4,6 +4,7 @@ import { RegistroPage } from '../registro/registro';
 import { User } from '../../user-model';
 import { Headers, Http } from '@angular/http';
 import { map } from 'rxjs/operators';
+import { HomePage } from '../home/home';
 
 
 @Component({
@@ -40,10 +41,11 @@ export class LoginPage {
       this.http.get(this.url, { headers: this.headers }).pipe(map(res => res.json()))
         .subscribe(
           response => {
-            console.log(response);
+            this.navCtrl.setRoot(HomePage);
           },
           err => {
-            console.log(err);
+            this.alertCtrl.create({ title: "Error", message: "El usuario es incorrecto", buttons: [{ text: "Aceptar" }] })
+              .present()
           }
         )
 
