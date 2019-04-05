@@ -5,7 +5,7 @@ import { User } from '../../user-model';
 import { Headers, Http } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { HomePage } from '../home/home';
-
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-login',
@@ -22,12 +22,12 @@ export class LoginPage {
   headers: Headers;
 
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public http: Http) {
+  constructor(public localStorage: Storage, public navCtrl: NavController, public alertCtrl: AlertController, public http: Http) {
     this.headers = new Headers();
     this.headers.append('X-Parse-REST-API-Key', 'restAPIKey');
     this.headers.append('X-Parse-Master-Key', 'masterKey');
     this.headers.append('X-Parse-Application-id', 'Lista1');
-
+    this.localStorage = new Storage(null);
   }
 
 
@@ -41,7 +41,10 @@ export class LoginPage {
       this.http.get(this.url, { headers: this.headers }).pipe(map(res => res.json()))
         .subscribe(
           response => {
-            this.navCtrl.setRoot(HomePage);
+            this.localStorage.set('idUsuario', response.objectId)
+              .then(() => {
+                this.navCtrl.setRoot(HomePage);
+              })
           },
           err => {
             this.alertCtrl.create({ title: "Error", message: "El usuario es incorrecto", buttons: [{ text: "Aceptar" }] })

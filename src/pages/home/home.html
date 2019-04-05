@@ -11,6 +11,12 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)='getTrabajadores($event)'>
+    <ion-refresher-content>
+
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-fab bottom right>
     <button ion-fab icon-only (click)="dialogoAdd()">
       <ion-icon name="add"></ion-icon>
@@ -28,10 +34,10 @@
         <p>Telefono:{{trabajador.telefono}}</p>
       </ion-item>
       <ion-item-options side='right'>
-        <button ion-button icon-only color='secondary'>
+        <button ion-button icon-only color='secondary' (click)="editarTrabajador(trabajador)">
           <ion-icon name="create"></ion-icon>
         </button>
-        <button ion-button icon-only color='danger'>
+        <button ion-button icon-only color='danger' (click)="deleteTrabajador(trabajador)"> 
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>
